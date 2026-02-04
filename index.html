@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Apiario - Gestión Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .honey-header { background-color: #ffc107; color: #343a40; padding: 20px; text-align: center; border-bottom: 5px solid #e6ac00; }
+        .card-inspeccion { border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-top: -20px; background: white; }
+        .btn-save { background-color: #343a40; color: white; width: 100%; padding: 12px; font-weight: bold; }
+        .form-label { font-weight: 600; color: #495057; }
+    </style>
+</head>
+<body>
+
+<div class="honey-header">
+    <h1>🐝 Mi Apiario</h1>
+    <p>Registro de Inspección Técnica</p>
+</div>
+
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 card-inspeccion p-4">
+            <form id="apiarioForm">
+                
+                <h5 class="text-warning mb-3">📍 Localización</h5>
+                <div class="mb-3">
+                    <label class="form-label">ID de Colmena / Código QR</label>
+                    <input type="text" id="idColmena" class="form-control" placeholder="Ej: COL-001" required>
+                </div>
+
+                <hr>
+
+                <h5 class="text-warning mb-3">👑 Estado de la Reina</h5>
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <label class="form-label">¿Vieron a la Reina?</label>
+                        <select id="reinaPresente" class="form-select">
+                            <option value="si">Sí</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label class="form-label">Postura (Huevos)</label>
+                        <select id="postura" class="form-select">
+                            <option value="buena">Buena (Uniforme)</option>
+                            <option value="irregular">Irregular</option>
+                            <option value="nula">Sin postura</option>
+                        </select>
+                    </div>
+                </div>
+
+                <hr>
+
+                <h5 class="text-warning mb-3">🏥 Salud y Población</h5>
+                <div class="mb-3">
+                    <label class="form-label">Población de Abejas (Escala 1-5)</label>
+                    <input type="range" id="poblacion" class="form-range" min="1" max="5">
+                    <div class="d-flex justify-content-between small">
+                        <span>Muy Débil</span>
+                        <span>Muy Fuerte</span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Signos de Enfermedad / Varroa</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="varroa">
+                        <label class="form-check-label">Presencia visible de Varroa</label>
+                    </div>
+                </div>
+
+                <hr>
+
+                <h5 class="text-warning mb-3">🍯 Producción y Reservas</h5>
+                <div class="mb-3">
+                    <label class="form-label">Cuadros con Miel</label>
+                    <input type="number" id="cuadrosMiel" class="form-control" placeholder="0">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Notas Adicionales</label>
+                    <textarea id="notas" class="form-control" rows="3" placeholder="Ej: Se agregó alza melaria..."></textarea>
+                </div>
+
+                <button type="button" onclick="guardarRegistro()" class="btn btn-save mt-3">GUARDAR INSPECCIÓN</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function guardarRegistro() {
+        const datos = {
+            id: document.getElementById('idColmena').value,
+            reina: document.getElementById('reinaPresente').value,
+            postura: document.getElementById('postura').value,
+            poblacion: document.getElementById('poblacion').value,
+            miel: document.getElementById('cuadrosMiel').value,
+            notas: document.getElementById('notas').value,
+            fecha: new Date().toLocaleString()
+        };
+
+        console.log("Datos capturados:", datos);
+        alert("¡Registro guardado localmente para " + datos.id + "!");
+        
+        // Aquí es donde luego conectaremos con Google Sheets
+        document.getElementById('apiarioForm').reset();
+    }
+</script>
+
+</body>
+</html>
