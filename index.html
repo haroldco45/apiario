@@ -3,111 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control de Apiario - Gestión Pro</title>
+    <title>Apiario Control Pro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        body { background-color: #f8f9fa; }
-        .honey-header { background-color: #ffc107; color: #343a40; padding: 20px; text-align: center; border-bottom: 5px solid #e6ac00; }
-        .card-inspeccion { border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-top: -20px; background: white; }
-        .btn-save { background-color: #343a40; color: white; width: 100%; padding: 12px; font-weight: bold; }
-        .form-label { font-weight: 600; color: #495057; }
+        :root { --honey: #ffc107; --dark-bee: #2b2b2b; }
+        body { background-color: #f4f4f4; padding-bottom: 70px; font-family: sans-serif; }
+        .header { background: var(--dark-bee); color: var(--honey); padding: 15px; text-align: center; }
+        .module-section { display: none; padding: 20px; }
+        .module-section.active { display: block; }
+        .card-custom { border: none; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 15px; }
+        
+        /* Navegación Inferior */
+        .nav-bottom { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ddd; }
+        .nav-item { text-align: center; color: #666; text-decoration: none; font-size: 0.8rem; }
+        .nav-item.active { color: var(--honey); font-weight: bold; }
+        .nav-item i { font-size: 1.5rem; display: block; }
     </style>
 </head>
 <body>
 
-<div class="honey-header">
-    <h1>🐝 Mi Apiario</h1>
-    <p>Registro de Inspección Técnica</p>
+<div class="header">
+    <h4 class="mb-0">APIARIO GESTIÓN PRO</h4>
 </div>
 
-<div class="container mb-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8 card-inspeccion p-4">
-            <form id="apiarioForm">
-                
-                <h5 class="text-warning mb-3">📍 Localización</h5>
-                <div class="mb-3">
-                    <label class="form-label">ID de Colmena / Código QR</label>
-                    <input type="text" id="idColmena" class="form-control" placeholder="Ej: COL-001" required>
-                </div>
-
-                <hr>
-
-                <h5 class="text-warning mb-3">👑 Estado de la Reina</h5>
-                <div class="row">
-                    <div class="col-6 mb-3">
-                        <label class="form-label">¿Vieron a la Reina?</label>
-                        <select id="reinaPresente" class="form-select">
-                            <option value="si">Sí</option>
-                            <option value="no">No</option>
-                        </select>
-                    </div>
-                    <div class="col-6 mb-3">
-                        <label class="form-label">Postura (Huevos)</label>
-                        <select id="postura" class="form-select">
-                            <option value="buena">Buena (Uniforme)</option>
-                            <option value="irregular">Irregular</option>
-                            <option value="nula">Sin postura</option>
-                        </select>
-                    </div>
-                </div>
-
-                <hr>
-
-                <h5 class="text-warning mb-3">🏥 Salud y Población</h5>
-                <div class="mb-3">
-                    <label class="form-label">Población de Abejas (Escala 1-5)</label>
-                    <input type="range" id="poblacion" class="form-range" min="1" max="5">
-                    <div class="d-flex justify-content-between small">
-                        <span>Muy Débil</span>
-                        <span>Muy Fuerte</span>
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Signos de Enfermedad / Varroa</label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="varroa">
-                        <label class="form-check-label">Presencia visible de Varroa</label>
-                    </div>
-                </div>
-
-                <hr>
-
-                <h5 class="text-warning mb-3">🍯 Producción y Reservas</h5>
-                <div class="mb-3">
-                    <label class="form-label">Cuadros con Miel</label>
-                    <input type="number" id="cuadrosMiel" class="form-control" placeholder="0">
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Notas Adicionales</label>
-                    <textarea id="notas" class="form-control" rows="3" placeholder="Ej: Se agregó alza melaria..."></textarea>
-                </div>
-
-                <button type="button" onclick="guardarRegistro()" class="btn btn-save mt-3">GUARDAR INSPECCIÓN</button>
-            </form>
+<section id="inventario" class="module-section active">
+    <h5><i class="bi bi-box-seam"></i> Inventario de Colmenas</h5>
+    <div class="card card-custom p-3">
+        <label class="form-label">Registrar Nueva Colmena</label>
+        <input type="text" class="form-control mb-2" placeholder="ID (Ej: A1-C04)">
+        <select class="form-select mb-2">
+            <option>Tipo: Langstroth</option>
+            <option>Tipo: Dadant</option>
+            <option>Tipo: Núcleo</option>
+        </select>
+        <button class="btn btn-warning w-100">Agregar al Apiario</button>
+    </div>
+    <div class="list-group mt-3">
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+            Colmena A1-C01 <span class="badge bg-success">Activa</span>
+        </div>
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+            Colmena A1-C02 <span class="badge bg-warning">Enjambrazón</span>
         </div>
     </div>
-</div>
+</section>
+
+<section id="inspeccion" class="module-section">
+    <h5><i class="bi bi-clipboard-check"></i> Inspección Técnica</h5>
+    <div class="card card-custom p-3">
+        <label class="form-label">Seleccionar Colmena</label>
+        <select id="selColmena" class="form-select mb-3">
+            <option>A1-C01</option>
+            <option>A1-C02</option>
+        </select>
+
+        <h6 class="text-muted">Salud y Sanidad</h6>
+        <div class="form-check form-switch mb-2">
+            <input class="form-check-input" type="checkbox" id="varroaCheck">
+            <label class="form-check-label">¿Presencia de Varroa?</label>
+        </div>
+        <input type="text" class="form-control mb-3" placeholder="Tratamiento aplicado">
+
+        <h6 class="text-muted">Población y Reina</h6>
+        <input type="range" class="form-range" min="1" max="5">
+        <select class="form-select mb-3">
+            <option>Reina: Localizada</option>
+            <option>Reina: No vista (Hay postura)</option>
+            <option>Reina: Ausente / Celdas Reales</option>
+        </select>
+        <button class="btn btn-dark w-100" onclick="alert('Registro Guardado')">Guardar Reporte</button>
+    </div>
+</section>
+
+<section id="produccion" class="module-section">
+    <h5><i class="bi bi-droplet-fill text-danger"></i> Cosecha y Producción</h5>
+    <div class="card card-custom p-3 text-center">
+        <h2 class="text-warning">125 kg</h2>
+        <p class="text-muted">Total Miel Temporada</p>
+    </div>
+    <div class="card card-custom p-3">
+        <label class="form-label">Registrar Cosecha (Kg)</label>
+        <input type="number" class="form-control mb-2" placeholder="Cantidad en kg">
+        <input type="date" class="form-control mb-2">
+        <button class="btn btn-success w-100">Registrar Ingreso</button>
+    </div>
+</section>
+
+<section id="alertas" class="module-section">
+    <h5><i class="bi bi-bell"></i> Próximas Tareas</h5>
+    <div class="alert alert-danger">
+        <strong>⚠️ Tratamiento Varroa:</strong> Colmena A1-C01 (Vence mañana).
+    </div>
+    <div class="alert alert-info">
+        <strong>📅 Revisión:</strong> Apiario Norte (Sábado 7 AM).
+    </div>
+</section>
+
+<nav class="nav-bottom">
+    <a href="#" class="nav-item active" onclick="showModule('inventario', this)">
+        <i class="bi bi-box-seam"></i>Inv.
+    </a>
+    <a href="#" class="nav-item" onclick="showModule('inspeccion', this)">
+        <i class="bi bi-clipboard-data"></i>Insp.
+    </a>
+    <a href="#" class="nav-item" onclick="showModule('produccion', this)">
+        <i class="bi bi-droplet"></i>Prod.
+    </a>
+    <a href="#" class="nav-item" onclick="showModule('alertas', this)">
+        <i class="bi bi-calendar-event"></i>Tareas
+    </a>
+</nav>
 
 <script>
-    function guardarRegistro() {
-        const datos = {
-            id: document.getElementById('idColmena').value,
-            reina: document.getElementById('reinaPresente').value,
-            postura: document.getElementById('postura').value,
-            poblacion: document.getElementById('poblacion').value,
-            miel: document.getElementById('cuadrosMiel').value,
-            notas: document.getElementById('notas').value,
-            fecha: new Date().toLocaleString()
-        };
-
-        console.log("Datos capturados:", datos);
-        alert("¡Registro guardado localmente para " + datos.id + "!");
+    function showModule(id, element) {
+        // Ocultar todos
+        document.querySelectorAll('.module-section').forEach(s => s.classList.remove('active'));
+        // Mostrar seleccionado
+        document.getElementById(id).classList.add('active');
         
-        // Aquí es donde luego conectaremos con Google Sheets
-        document.getElementById('apiarioForm').reset();
+        // Actualizar UI navegación
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        element.classList.add('active');
     }
 </script>
 
