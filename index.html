@@ -3,128 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apiario Control Pro</title>
+    <title>Apiario Pro - Business Edition</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        :root { --honey: #ffc107; --dark-bee: #2b2b2b; }
-        body { background-color: #f4f4f4; padding-bottom: 70px; font-family: sans-serif; }
-        .header { background: var(--dark-bee); color: var(--honey); padding: 15px; text-align: center; }
-        .module-section { display: none; padding: 20px; }
-        .module-section.active { display: block; }
-        .card-custom { border: none; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 15px; }
+        :root { --honey: #FFC107; --honey-dark: #FFA000; --dark-bee: #1e1e1e; --success-green: #2ecc71; --error-red: #e74c3c; }
+        body { background-color: #f0f2f5; padding-bottom: 80px; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
         
+        /* Header Estilo Premium */
+        .header-pro { background: var(--dark-bee); color: white; padding: 20px 15px; border-radius: 0 0 25px 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        .header-pro h4 { color: var(--honey); font-weight: 800; letter-spacing: 1px; }
+
+        /* Contenedores de Módulos */
+        .module-section { display: none; animation: fadeIn 0.3s ease-in-out; padding: 15px; }
+        .module-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Cards Estilizadas */
+        .card-pro { border: none; border-radius: 18px; background: white; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 20px; border-left: 5px solid var(--honey); }
+        .card-finance { border-left: 5px solid var(--success-green); }
+        .card-expense { border-left: 5px solid var(--error-red); }
+
+        /* Botones */
+        .btn-honey { background: var(--honey); color: var(--dark-bee); border: none; font-weight: bold; border-radius: 10px; padding: 12px; transition: 0.3s; }
+        .btn-honey:hover { background: var(--honey-dark); transform: scale(1.02); }
+
         /* Navegación Inferior */
-        .nav-bottom { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ddd; }
-        .nav-item { text-align: center; color: #666; text-decoration: none; font-size: 0.8rem; }
-        .nav-item.active { color: var(--honey); font-weight: bold; }
-        .nav-item i { font-size: 1.5rem; display: block; }
+        .nav-bottom { position: fixed; bottom: 0; width: 100%; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #eee; z-index: 1000; }
+        .nav-item { text-align: center; color: #a0a0a0; text-decoration: none; font-size: 0.75rem; transition: 0.3s; }
+        .nav-item.active { color: var(--dark-bee); }
+        .nav-item i { font-size: 1.6rem; display: block; margin-bottom: 2px; }
+        .active i { color: var(--honey-dark); }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <h4 class="mb-0">APIARIO GESTIÓN PRO</h4>
+<div class="header-pro text-center">
+    <h4 class="mb-0">BEE MANAGER PRO</h4>
+    <small class="text-white-50">Control de Producción y Finanzas</small>
 </div>
 
-<section id="inventario" class="module-section active">
-    <h5><i class="bi bi-box-seam"></i> Inventario de Colmenas</h5>
-    <div class="card card-custom p-3">
-        <label class="form-label">Registrar Nueva Colmena</label>
-        <input type="text" class="form-control mb-2" placeholder="ID (Ej: A1-C04)">
-        <select class="form-select mb-2">
-            <option>Tipo: Langstroth</option>
-            <option>Tipo: Dadant</option>
-            <option>Tipo: Núcleo</option>
-        </select>
-        <button class="btn btn-warning w-100">Agregar al Apiario</button>
-    </div>
-    <div class="list-group mt-3">
-        <div class="list-group-item d-flex justify-content-between align-items-center">
-            Colmena A1-C01 <span class="badge bg-success">Activa</span>
+<div class="container mt-3">
+
+    <section id="inventario" class="module-section active">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold">Mis Colmenas</h5>
+            <button class="btn btn-sm btn-dark" onclick="alert('Escanear QR')"><i class="bi bi-qr-code-scan"></i></button>
         </div>
-        <div class="list-group-item d-flex justify-content-between align-items-center">
-            Colmena A1-C02 <span class="badge bg-warning">Enjambrazón</span>
+        
+        <div class="card card-pro p-3">
+            <div class="row text-center">
+                <div class="col-4 border-end"><h6>24</h6><small class="text-muted">Total</small></div>
+                <div class="col-4 border-end"><h6>21</h6><small class="text-muted">Fuertes</small></div>
+                <div class="col-4"><h6>3</h6><small class="text-muted">Débiles</small></div>
+            </div>
         </div>
-    </div>
-</section>
 
-<section id="inspeccion" class="module-section">
-    <h5><i class="bi bi-clipboard-check"></i> Inspección Técnica</h5>
-    <div class="card card-custom p-3">
-        <label class="form-label">Seleccionar Colmena</label>
-        <select id="selColmena" class="form-select mb-3">
-            <option>A1-C01</option>
-            <option>A1-C02</option>
-        </select>
-
-        <h6 class="text-muted">Salud y Sanidad</h6>
-        <div class="form-check form-switch mb-2">
-            <input class="form-check-input" type="checkbox" id="varroaCheck">
-            <label class="form-check-label">¿Presencia de Varroa?</label>
+        <div class="list-group shadow-sm">
+            <div class="list-group-item d-flex justify-content-between p-3">
+                <div><strong>C-01 (Langstroth)</strong><br><small class="text-muted">Última rev: Hace 3 días</small></div>
+                <span class="badge bg-success rounded-pill d-flex align-items-center">Óptima</span>
+            </div>
+            <div class="list-group-item d-flex justify-content-between p-3">
+                <div><strong>C-02 (Núcleo)</strong><br><small class="text-muted">Tratamiento Varroa activo</small></div>
+                <span class="badge bg-warning text-dark rounded-pill d-flex align-items-center">Observación</span>
+            </div>
         </div>
-        <input type="text" class="form-control mb-3" placeholder="Tratamiento aplicado">
+    </section>
 
-        <h6 class="text-muted">Población y Reina</h6>
-        <input type="range" class="form-range" min="1" max="5">
-        <select class="form-select mb-3">
-            <option>Reina: Localizada</option>
-            <option>Reina: No vista (Hay postura)</option>
-            <option>Reina: Ausente / Celdas Reales</option>
-        </select>
-        <button class="btn btn-dark w-100" onclick="alert('Registro Guardado')">Guardar Reporte</button>
-    </div>
-</section>
+    <section id="inspeccion" class="module-section">
+        <h5 class="fw-bold mb-3">Nueva Inspección</h5>
+        <div class="card card-pro p-4">
+            <label class="form-label fw-bold">Colmena a Revisar</label>
+            <select class="form-select mb-3 shadow-sm">
+                <option>Seleccionar...</option>
+                <option>C-01</option>
+                <option>C-02</option>
+            </select>
+            
+            <label class="form-label fw-bold">Estado Sanitario</label>
+            <div class="btn-group w-100 mb-3" role="group">
+                <input type="radio" class="btn-check" name="salud" id="s1" checked>
+                <label class="btn btn-outline-success" for="s1">Sana</label>
+                <input type="radio" class="btn-check" name="salud" id="s2">
+                <label class="btn btn-outline-warning" for="s2">Enferma</label>
+                <input type="radio" class="btn-check" name="salud" id="s3">
+                <label class="btn btn-outline-danger" for="s3">Crítica</label>
+            </div>
 
-<section id="produccion" class="module-section">
-    <h5><i class="bi bi-droplet-fill text-danger"></i> Cosecha y Producción</h5>
-    <div class="card card-custom p-3 text-center">
-        <h2 class="text-warning">125 kg</h2>
-        <p class="text-muted">Total Miel Temporada</p>
-    </div>
-    <div class="card card-custom p-3">
-        <label class="form-label">Registrar Cosecha (Kg)</label>
-        <input type="number" class="form-control mb-2" placeholder="Cantidad en kg">
-        <input type="date" class="form-control mb-2">
-        <button class="btn btn-success w-100">Registrar Ingreso</button>
-    </div>
-</section>
+            <label class="form-label fw-bold">Alimentación Extra</label>
+            <select class="form-select mb-4">
+                <option>Ninguna</option>
+                <option>Jarabe 1:1</option>
+                <option>Torta Proteica</option>
+            </select>
 
-<section id="alertas" class="module-section">
-    <h5><i class="bi bi-bell"></i> Próximas Tareas</h5>
-    <div class="alert alert-danger">
-        <strong>⚠️ Tratamiento Varroa:</strong> Colmena A1-C01 (Vence mañana).
-    </div>
-    <div class="alert alert-info">
-        <strong>📅 Revisión:</strong> Apiario Norte (Sábado 7 AM).
-    </div>
-</section>
+            <button class="btn btn-honey w-100">FINALIZAR REVISIÓN</button>
+        </div>
+    </section>
+
+    <section id="finanzas" class="module-section">
+        <h5 class="fw-bold mb-3">Balance del Mes</h5>
+        
+        <div class="row mb-3">
+            <div class="col-6">
+                <div class="card card-pro card-finance p-3">
+                    <small class="text-muted">Ventas</small>
+                    <h5 class="text-success mb-0">$2,450</h5>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card card-pro card-expense p-3">
+                    <small class="text-muted">Gastos</small>
+                    <h5 class="text-danger mb-0">$840</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-pro p-4 shadow-sm">
+            <h6 class="fw-bold">Registrar Movimiento</h6>
+            <select class="form-select mb-2" id="tipoFinanza">
+                <option value="ingreso">Ingreso (Venta de Miel/Polen)</option>
+                <option value="egreso">Egreso (Insumos/Herramientas)</option>
+            </select>
+            <input type="number" class="form-control mb-2" placeholder="Monto $">
+            <input type="text" class="form-control mb-3" placeholder="Concepto (Ej: Compra de cera)">
+            <button class="btn btn-dark w-100">REGISTRAR EN LIBRO</button>
+        </div>
+    </section>
+
+</div>
 
 <nav class="nav-bottom">
-    <a href="#" class="nav-item active" onclick="showModule('inventario', this)">
-        <i class="bi bi-box-seam"></i>Inv.
+    <a href="javascript:void(0)" class="nav-item active" onclick="showModule('inventario', this)">
+        <i class="bi bi-grid-1x2-fill"></i>Panel
     </a>
-    <a href="#" class="nav-item" onclick="showModule('inspeccion', this)">
-        <i class="bi bi-clipboard-data"></i>Insp.
+    <a href="javascript:void(0)" class="nav-item" onclick="showModule('inspeccion', this)">
+        <i class="bi bi-shield-check"></i>Revisar
     </a>
-    <a href="#" class="nav-item" onclick="showModule('produccion', this)">
-        <i class="bi bi-droplet"></i>Prod.
+    <a href="javascript:void(0)" class="nav-item" onclick="showModule('finanzas', this)">
+        <i class="bi bi-cash-stack"></i>Caja
     </a>
-    <a href="#" class="nav-item" onclick="showModule('alertas', this)">
-        <i class="bi bi-calendar-event"></i>Tareas
+    <a href="javascript:void(0)" class="nav-item" onclick="alert('Generando Reporte PDF...')">
+        <i class="bi bi-file-earmark-pdf"></i>PDF
     </a>
 </nav>
 
 <script>
     function showModule(id, element) {
-        // Ocultar todos
         document.querySelectorAll('.module-section').forEach(s => s.classList.remove('active'));
-        // Mostrar seleccionado
         document.getElementById(id).classList.add('active');
-        
-        // Actualizar UI navegación
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
         element.classList.add('active');
+        window.scrollTo(0,0);
     }
 </script>
 
