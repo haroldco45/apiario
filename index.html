@@ -3,49 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bee Manager Pro v4.0 - Colombia</title>
+    <title>Bee Manager Pro 2026</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        :root { --honey: #FFC107; --dark-bee: #1e1e1e; --soft-gray: #f4f7f6; }
-        body { background-color: var(--soft-gray); padding-bottom: 90px; font-family: 'Segoe UI', sans-serif; }
-        .header-pro { background: var(--dark-bee); color: white; padding: 15px; border-radius: 0 0 20px 20px; position: sticky; top:0; z-index:1000; }
-        .module-section { display: none; padding: 12px; animation: fadeIn 0.3s; }
+        :root { --honey: #FFC107; --honey-dark: #FFA000; --bg: #f8f9fa; --card-bg: #ffffff; --text: #212529; }
+        [data-theme="dark"] { --bg: #121212; --card-bg: #1e1e1e; --text: #e0e0e0; }
+
+        body { background-color: var(--bg); color: var(--text); padding-bottom: 90px; font-family: 'Segoe UI', sans-serif; transition: 0.3s; }
+        .header-pro { background: #1e1e1e; color: white; padding: 15px; border-radius: 0 0 20px 20px; position: sticky; top:0; z-index:1000; border-bottom: 3px solid var(--honey); }
+        .module-section { display: none; padding: 12px; animation: fadeIn 0.4s; }
         .module-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Ficha Técnica de Colmena */
-        .card-colmena { border: none; border-radius: 18px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 15px; position: relative; border-left: 6px solid var(--honey); }
-        .status-badge { position: absolute; top: 15px; right: 15px; font-size: 0.7rem; padding: 4px 8px; border-radius: 20px; }
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.85rem; margin-top: 10px; }
-        .info-item { background: #f9f9f9; padding: 6px; border-radius: 8px; border: 1px solid #eee; }
+        .card-pro { border: none; border-radius: 20px; background: var(--card-bg); box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 15px; border-left: 6px solid var(--honey); transition: 0.3s; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.8rem; margin-top: 10px; }
+        .info-item { background: rgba(0,0,0,0.03); padding: 8px; border-radius: 10px; }
         
-        .nav-bottom { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ddd; z-index: 1000; }
+        .nav-bottom { position: fixed; bottom: 0; width: 100%; background: var(--card-bg); display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid rgba(0,0,0,0.1); z-index: 1000; }
         .nav-item { text-align: center; color: #888; text-decoration: none; font-size: 0.7rem; }
-        .nav-item.active { color: var(--honey); font-weight: bold; }
+        .nav-item.active { color: var(--honey-dark); font-weight: bold; }
         .nav-item i { font-size: 1.5rem; display: block; }
+
+        /* Estilo Alertas */
+        .alert-bee { border-radius: 15px; border: none; border-left: 5px solid #dc3545; background: #fff5f5; color: #921c1c; }
     </style>
 </head>
-<body>
+<body data-theme="light">
 
-<div class="header-pro text-center shadow">
-    <h5 class="mb-0 text-warning fw-bold">BEE MANAGER PRO 🇨🇴</h5>
-    <div id="reloj" class="small text-white-50">Cargando hora...</div>
+<div class="header-pro shadow">
+    <div class="d-flex justify-content-between align-items-center">
+        <h6 class="mb-0 text-warning fw-bold">BEE MANAGER PRO 🐝</h6>
+        <button class="btn btn-sm text-white" onclick="toggleTheme()"><i class="bi bi-moon-stars-fill"></i></button>
+    </div>
+    <div id="reloj" class="small mt-1 opacity-75">Cargando hora...</div>
 </div>
 
 <div class="container mt-3">
 
-    <section id="inventario" class="module-section active">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="fw-bold mb-0">Apiario Actual</h5>
-            <button class="btn btn-dark btn-sm rounded-pill" onclick="gestionarColmena()">+ Nueva Colmena</button>
+    <section id="dashboard" class="module-section active">
+        <div class="card card-pro p-3 bg-primary text-white border-0 shadow">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-0">29°C</h2>
+                    <p class="mb-0 small">Caucasia, Antioquia 🇨🇴</p>
+                    <small>Soleado - Óptimo para apertura</small>
+                </div>
+                <i class="bi bi-cloud-sun fs-1"></i>
+            </div>
+        </div>
+
+        <h6 class="fw-bold mt-3">Alertas Críticas</h6>
+        <div id="contenedorAlertas">
+            <div class="alert alert-bee p-2 shadow-sm d-flex align-items-center">
+                <i class="bi bi-exclamation-octagon-fill fs-4 me-2"></i>
+                <small>C-03: Posible Enjambrazón (Celdas Reales)</small>
+            </div>
+        </div>
+
+        <h6 class="fw-bold mt-4">Resumen de Producción</h6>
+        <div class="row g-2">
+            <div class="col-6"><div class="card card-pro p-3 border-start border-success"><b>$2.4M</b><br><small>Ventas</small></div></div>
+            <div class="col-6"><div class="card card-pro p-3 border-start border-danger"><b>$850k</b><br><small>Gastos</small></div></div>
+        </div>
+    </section>
+
+    <section id="inventario" class="module-section">
+        <div class="d-flex justify-content-between mb-3">
+            <h5 class="fw-bold">Colmenares</h5>
+            <button class="btn btn-dark btn-sm rounded-pill" onclick="gestionarColmena()">+ Nueva</button>
         </div>
         <div id="listaColmenas"></div>
     </section>
 
     <section id="finanzas" class="module-section">
-        <h5 class="fw-bold mb-3">Movimientos de Caja</h5>
-        <div class="card card-pro p-3 mb-3 border-0 shadow-sm">
+        <h5 class="fw-bold mb-3">Control de Caja</h5>
+        <div class="card card-pro p-3 mb-3 border-0">
             <div class="row g-2">
                 <div class="col-6"><select class="form-select" id="finTipo"><option>Ingreso</option><option>Egreso</option></select></div>
                 <div class="col-6"><select class="form-select" id="finCat"></select></div>
@@ -57,65 +90,73 @@
     </section>
 
     <section id="sistema" class="module-section">
-        <h5 class="fw-bold mb-3">Seguridad y Datos</h5>
-        <div class="card p-3 border-0 shadow-sm rounded-4">
-            <button class="btn btn-outline-success w-100 mb-3" onclick="exportarExcel()"><i class="bi bi-file-earmark-spreadsheet"></i> Descargar Excel</button>
-            <div class="row g-2">
-                <div class="col-6"><button class="btn btn-primary w-100" onclick="descargarJSON()"><i class="bi bi-download"></i> Backup</button></div>
-                <div class="col-6">
-                    <button class="btn btn-outline-primary w-100" onclick="document.getElementById('fileIn').click()"><i class="bi bi-upload"></i> Cargar</button>
-                    <input type="file" id="fileIn" style="display:none" onchange="cargarJSON(event)">
-                </div>
-            </div>
+        <h5 class="fw-bold mb-3">Sistema y Backup</h5>
+        <div class="card p-3 border-0 shadow-sm rounded-4 mb-3">
+            <button class="btn btn-outline-success w-100 mb-2" onclick="exportarExcel()"><i class="bi bi-file-earmark-excel"></i> Excel (CSV)</button>
+            <button class="btn btn-primary w-100 mb-2" onclick="descargarJSON()"><i class="bi bi-cloud-download"></i> Backup Local</button>
+            <button class="btn btn-outline-primary w-100" onclick="document.getElementById('fileIn').click()"><i class="bi bi-cloud-upload"></i> Cargar Datos</button>
+            <input type="file" id="fileIn" style="display:none" onchange="cargarJSON(event)">
+        </div>
+        <div class="alert alert-info small">
+            <i class="bi bi-flower1"></i> <b>Calendario Floral:</b> Febrero inicia floración de Eucalipto en la zona.
         </div>
     </section>
+
 </div>
 
-<nav class="nav-bottom">
-    <a href="javascript:void(0)" class="nav-item active" onclick="showModule('inventario', this)"><i class="bi bi-houses-fill"></i>Colmenas</a>
-    <a href="javascript:void(0)" class="nav-item" onclick="showModule('finanzas', this)"><i class="bi bi-wallet2"></i>Finanzas</a>
-    <a href="javascript:void(0)" class="nav-item" onclick="showModule('sistema', this)"><i class="bi bi-gear-wide-connected"></i>Sistema</a>
+<nav class="nav-bottom shadow-lg">
+    <a href="javascript:void(0)" class="nav-item active" onclick="showModule('dashboard', this)"><i class="bi bi-speedometer2"></i>Inicio</a>
+    <a href="javascript:void(0)" class="nav-item" onclick="showModule('inventario', this)"><i class="bi bi-box-seam-fill"></i>Apiario</a>
+    <a href="javascript:void(0)" class="nav-item" onclick="showModule('finanzas', this)"><i class="bi bi-cash-stack"></i>Caja</a>
+    <a href="javascript:void(0)" class="nav-item" onclick="showModule('sistema', this)"><i class="bi bi-gear-fill"></i>Config</a>
 </nav>
 
 <script>
-    let db = JSON.parse(localStorage.getItem('apiarioDB_v4')) || {
+    let db = JSON.parse(localStorage.getItem('apiarioDB_vFinal')) || {
         colmenas: [],
         finanzas: [],
-        categorias: ["Miel", "Polen", "Núcleos", "Azúcar", "Cera", "Sanidad"]
+        categorias: ["Venta Miel", "Venta Polen", "Cera", "Azúcar", "Medicinas", "Herramientas"]
     };
 
     function guardarDB() {
-        localStorage.setItem('apiarioDB_v4', JSON.stringify(db));
+        localStorage.setItem('apiarioDB_vFinal', JSON.stringify(db));
         renderTodo();
     }
 
     // RELOJ COLOMBIA
     setInterval(() => {
-        document.getElementById('reloj').innerText = new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' });
+        const opciones = { timeZone: 'America/Bogota', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true, day: '2-digit', month: 'long', year: 'numeric' };
+        document.getElementById('reloj').innerText = new Date().toLocaleString('es-CO', opciones);
     }, 1000);
 
-    // GESTIÓN DE COLMENAS PRO
+    // MODO OSCURO
+    function toggleTheme() {
+        const theme = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        document.body.setAttribute('data-theme', theme);
+    }
+
+    // GESTIÓN COLMENAS
     function gestionarColmena(id = null) {
         let c = id ? db.colmenas.find(x => x.id === id) : {};
-        
-        const nombre = prompt("Nombre/Número de Colmena:", c.nombre || "");
+        const nombre = prompt("ID Colmena (Ej: C-01):", c.nombre || "");
         if (!nombre) return;
         
-        const reina = prompt("Estado Reina (Nueva, 2023, Marcada, No vista):", c.reina || "No vista");
-        const poblacion = prompt("Población (1-5 cuadros):", c.poblacion || "3");
-        const sanidad = prompt("Estado Sanitario (Sana, Varroa, Tratamiento):", c.sanidad || "Sana");
-        const notas = prompt("Notas adicionales:", c.notas || "");
+        const reina = prompt("Reina (Edad/Origen):", c.reina || "2025");
+        const c_abeja = prompt("Cuadros con Abeja (1-10):", c.c_abeja || "8");
+        const c_cria = prompt("Cuadros con Cría (1-10):", c.c_cria || "5");
+        const sanidad = prompt("Salud (Sana/Varroa/Tratamiento):", c.sanidad || "Sana");
+        const gps = "8.14, -75.12"; // Simulado Caucasia
 
         if (id) {
-            Object.assign(c, { nombre, reina, poblacion, sanidad, notas });
+            Object.assign(c, { nombre, reina, c_abeja, c_cria, sanidad });
         } else {
-            db.colmenas.push({ id: Date.now(), nombre, reina, poblacion, sanidad, notas, fecha: new Date().toLocaleDateString() });
+            db.colmenas.push({ id: Date.now(), nombre, reina, c_abeja, c_cria, sanidad, gps, fecha: new Date().toLocaleDateString() });
         }
         guardarDB();
     }
 
     function eliminarColmena(id) {
-        if(confirm("¿Eliminar colmena permanentemente?")) {
+        if(confirm("¿Eliminar registro?")) {
             db.colmenas = db.colmenas.filter(c => c.id !== id);
             guardarDB();
         }
@@ -130,41 +171,35 @@
         guardarDB();
     }
 
-    // RENDERS
     function renderTodo() {
-        // Render Colmenas con Diseño Ficha
+        // Colmenas
         document.getElementById('listaColmenas').innerHTML = db.colmenas.map(c => `
-            <div class="card card-colmena p-3">
-                <span class="status-badge bg-dark text-warning fw-bold">${c.fecha}</span>
+            <div class="card card-pro p-3">
                 <div class="d-flex justify-content-between align-items-start">
                     <div>
-                        <h5 class="fw-bold mb-0">🐝 ${c.nombre}</h5>
-                        <small class="text-muted">Estado General</small>
+                        <h6 class="fw-bold mb-0">🏠 ${c.nombre}</h6>
+                        <small class="text-muted">Rev: ${c.fecha}</small>
                     </div>
                     <div>
-                        <i class="bi bi-pencil-square text-primary me-3 fs-5" onclick="gestionarColmena(${c.id})"></i>
-                        <i class="bi bi-trash text-danger fs-5" onclick="eliminarColmena(${c.id})"></i>
+                        <i class="bi bi-pencil-square text-primary me-2" onclick="gestionarColmena(${c.id})"></i>
+                        <i class="bi bi-trash text-danger" onclick="eliminarColmena(${c.id})"></i>
                     </div>
                 </div>
                 <div class="info-grid">
-                    <div class="info-item"><b>👑 Reina:</b><br>${c.reina}</div>
-                    <div class="info-item"><b>👥 Abejas:</b><br>${c.poblacion} cuadros</div>
-                    <div class="info-item"><b>🏥 Salud:</b><br>${c.sanidad}</div>
-                    <div class="info-item"><b>📝 Notas:</b><br>${c.notas || 'Sin notas'}</div>
+                    <div class="info-item"><b>Reina:</b> ${c.reina}</div>
+                    <div class="info-item"><b>Abejas:</b> ${c.c_abeja} C.</div>
+                    <div class="info-item"><b>Cría:</b> ${c.c_cria} C.</div>
+                    <div class="info-item"><b>Salud:</b> ${c.sanidad}</div>
                 </div>
             </div>
         `).join('');
 
-        // Render Finanzas
+        // Finanzas
         document.getElementById('listaFinanzas').innerHTML = db.finanzas.map(f => `
-            <div class="card border-0 shadow-sm p-3 mb-2 rounded-4">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <span class="badge ${f.tipo==='Ingreso'?'bg-success':'bg-danger'} mb-1">${f.tipo}</span>
-                        <div class="fw-bold">$${Number(f.monto).toLocaleString()}</div>
-                        <small class="text-muted">${f.cat} | ${f.fecha}</small>
-                    </div>
-                    <i class="bi bi-trash text-muted" onclick="db.finanzas = db.finanzas.filter(x=>x.id!==${f.id}); guardarDB();"></i>
+            <div class="card card-pro p-2 mb-2 border-0 shadow-sm border-start border-4 ${f.tipo==='Ingreso'?'border-success':'border-danger'}">
+                <div class="d-flex justify-content-between px-2">
+                    <span><b>$${Number(f.monto).toLocaleString()}</b> <small>(${f.cat})</small></span>
+                    <i class="bi bi-x-circle text-muted" onclick="db.finanzas=db.finanzas.filter(x=>x.id!==${f.id});guardarDB();"></i>
                 </div>
             </div>
         `).join('');
@@ -172,20 +207,20 @@
         document.getElementById('finCat').innerHTML = db.categorias.map(c => `<option>${c}</option>`).join('');
     }
 
-    // BACKUP & EXCEL (Igual que antes pero actualizado a db_v4)
+    // BACKUP
     function descargarJSON() {
         const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
-        const a = document.createElement('a'); a.href = dataStr; a.download = "backup_apiario_v4.json"; a.click();
+        const a = document.createElement('a'); a.href = dataStr; a.download = "BeeManager_Backup.json"; a.click();
     }
     function cargarJSON(e) {
         const reader = new FileReader();
-        reader.onload = (ev) => { db = JSON.parse(ev.target.result); guardarDB(); alert("Datos sincronizados"); };
+        reader.onload = (ev) => { db = JSON.parse(ev.target.result); guardarDB(); alert("Sincronización Exitosa"); };
         reader.readAsText(e.target.files[0]);
     }
     function exportarExcel() {
         let csv = "Fecha,Tipo,Categoria,Monto\n" + db.finanzas.map(f => `${f.fecha},${f.tipo},${f.cat},${f.monto}`).join("\n");
         const blob = new Blob([csv], { type: 'text/csv' });
-        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "Finanzas_Pro.csv"; a.click();
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "Reporte_BeeManager.csv"; a.click();
     }
 
     function showModule(id, el) {
